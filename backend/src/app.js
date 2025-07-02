@@ -1,6 +1,8 @@
 // package imports
-import express from "express";
+import express, { Router } from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -23,37 +25,46 @@ app.listen(port, () => {
 });
 
 //routes
-import TCGdex from "@tcgdex/sdk";
-
-const tcgdex = new TCGdex("en");
-
-app.get("/api/cards", async (req, res) => {
+const router = Router();
+router.get("/tcg/cards", async (req, res) => {
   try {
-    const cards = await tcgdex.card.list();
-    const cardToDisplay = cards.slice(0, 125);
-
-    const detailedCards = await Promise.all(
-      cardToDisplay.map(async (card) => {
-        const fullCard = await tcgdex.card.get(card.id);
-        return {
-          id: fullCard.id,
-          name: fullCard.name,
-          image: fullCard.image,
-          types: fullCard.types,
-          rarity: fullCard.rarity,
-          set: fullCard.set,
-          description: fullCard.description,
-          attacks: fullCard.attacks,
-          weaknesses: fullCard.weaknesses,
-          highQualityImage: fullCard.getImageURL("high", "png"), // Assuming getImageURL is a method that returns the image URL
-          lowQualityImage: fullCard.getImageURL("low", "png"), // Assuming get
-        };
-      })
-    );
-
-    res.json(detailedCards);
+    const page = req.query.page || 1;
+    let url = `${process.env.POKEMON_TCG_API_URL}/cards?pageSize=25&page=${page}`;
+    if (req.query.q) {
+      url += `&q=${encodeURIComponent(req.query.q)}`;
+    }
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Api-Key": process.env.POKEMON_TCG_API_KEY,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    res.json(data.data); // Only send the array of cards
   } catch (error) {
-    console.error("Error fetching cards:", error);
-    res.status(500).json({ error: "Failed to fetch cards" });
+    console.error("Error fetching Pokémon TCG cards:", error);
+    res.status(500).json({ error: "Failed to fetch Pokémon cards" });
   }
 });
+
+// Endpoint to fetch a specific Pokémon TCG card by ID
+router.get("/tcg/card/:id", async (req, res) => {
+  try {
+    const url = `${process.env.POKEMON_TCG_API_URL}/cards/${req.params.id}`;
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Api-Key": process.env.POKEMON_TCG_API_KEY,
+      },
+    });
+    if (!response.ok) throw new Error("Network response was not ok");
+    const data = await response.json();
+    res.json(data.data); // TCG API returns { data: { ...card } }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch card" });
+  }
+});
+app.use("/api", router);

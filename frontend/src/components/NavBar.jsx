@@ -1,16 +1,48 @@
 import { useState } from "react";
-import { Outlet, Link } from "react-router-dom";
-
+import { Outlet, Link, useNavigate } from "react-router-dom";
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
-      <div className="navbar bg-base-100 shadow-sm flex flex-wrap">
+      <div className="navbar bg-base-100 shadow-sm flex flex-wrap z-10">
         <div className="flex-1">
-          <Link className="btn btn-ghost text-2xl" to="/">
-            Poké Stop
-          </Link>
+          <div className="flex flex-wrap">
+            <Link className="btn btn-ghost text-2xl" to="/">
+              Poké Stop
+            </Link>
+            <section className="flex flex-row justify-center mb-4">
+              <div className="join">
+                <div>
+                  <input
+                    type="text"
+                    name="search"
+                    placeholder="Search"
+                    className="input input-bordered mb-2 join-item"
+                    onKeyDown={(e) => {
+                      const pokemonName = e.target.value.trim().toLowerCase();
+                      if (e.key === "Enter" && pokemonName) {
+                        e.preventDefault();
+                        navigate(`/tcg/cards/${pokemonName}`);
+                      }
+                    }}
+                  />
+                </div>
+                <select className="select join-item">
+                  <option>In TCG</option>
+                  <option>In Games</option>
+                </select>
+                <button
+                  className="join-item btn btn-primary"
+                  aria-label="Search Trading Cards"
+                  type="submit"
+                >
+                  &rarr;
+                </button>{" "}
+              </div>
+            </section>
+          </div>
         </div>
         {/* Hamburger for mobile */}
         <div className="flex-none md:hidden">
@@ -36,11 +68,12 @@ const NavBar = () => {
           </button>
         </div>
         {/* Desktop menu */}
-        <div className="flex-none hidden md:block">
+        <div className="flex-none hidden md:block z-10">
           <ul className="menu menu-horizontal px-1">
             <li>
               <details>
                 <summary>Pokémon</summary>
+
                 <ul className="bg-base-100 rounded-t-none p-2">
                   <li>
                     <Link to="/pokemon">All Pokémon</Link>
@@ -59,7 +92,7 @@ const NavBar = () => {
                 <summary>Trading Cards</summary>
                 <ul className="bg-base-100 rounded-t-none p-2">
                   <li>
-                    <Link to="/cards">All Cards</Link>
+                    <Link to="/tcg/cards">All Cards</Link>
                   </li>
                   <li>
                     <Link to="/cards/sets">Cards by Sets</Link>
@@ -116,7 +149,7 @@ const NavBar = () => {
                 <summary>Trading Cards</summary>
                 <ul>
                   <li>
-                    <Link to="/cards" onClick={() => setMenuOpen(false)}>
+                    <Link to="/tcg/cards" onClick={() => setMenuOpen(false)}>
                       All Cards
                     </Link>
                   </li>
