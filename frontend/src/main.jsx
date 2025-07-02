@@ -8,15 +8,29 @@ import "./index.css";
 import Landing from "./pages/Landing.jsx";
 import App from "./App.jsx";
 import NavBar from "./components/NavBar.jsx";
-import Pokemon from "./pages/Pokemon.jsx";
-import PokemonGeneration from "./pages/PokemonGeneration.jsx";
-import PokemonType from "./pages/PokemonType.jsx";
-import PokemonCards from "./pages/PokemonCards.jsx";
-import PokemonCardSets from "./pages/PokemonCardSets.jsx";
-import PokemonCardsRarity from "./pages/PokemonCardsRarity.jsx";
-import PokemonCardsType from "./pages/PokemonCardsType.jsx";
+
+{
+  /* Pokedex pages */
+}
+import Pokemon from "./pages/pokedex/Pokemon.jsx";
+import PokemonGeneration from "./pages/pokedex/PokemonGeneration.jsx";
+import PokemonType from "./pages/pokedex/PokemonType.jsx";
+
+{
+  /* TCG pages */
+}
+import PokemonCards from "./pages/cards/PokemonCards.jsx";
+import PokemonCardSets from "./pages/cards/PokemonCardSets.jsx";
+import PokemonCardsRarity from "./pages/cards/PokemonCardsRarity.jsx";
+import PokemonCardsType from "./pages/cards/PokemonCardsType.jsx";
+import PokemonCardInfo from "./pages/cards/PokemonCardInfo.jsx";
+
+{
+  /* Other pages */
+}
 import About from "./pages/About.jsx";
 import Faq from "./pages/Faq.jsx";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -27,7 +41,11 @@ createRoot(document.getElementById("root")).render(
           <Route path="pokemon" element={<Pokemon />} />
           <Route path="pokemon/generation" element={<PokemonGeneration />} />
           <Route path="pokemon/type" element={<PokemonType />} />
-          <Route path="cards" element={<PokemonCards />} />
+
+          <Route path="tcg/cards" element={<PokemonCards />} />
+          <Route path="tcg/cards/:name" element={<PokemonCards />} />
+          <Route path="tcg/card/:id" element={<PokemonCardInfo />} />
+
           <Route path="cards/sets" element={<PokemonCardSets />} />
           <Route path="cards/rarity" element={<PokemonCardsRarity />} />
           <Route path="cards/type" element={<PokemonCardsType />} />
