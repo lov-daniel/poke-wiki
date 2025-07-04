@@ -6,6 +6,9 @@ dotenv.config();
 
 const app = express();
 
+// route imports
+import pokedexRoutes from './routes/pokedexRoutes.js'
+
 // lets us set a port, falls back to 4000
 let port = process.env.PORT || 4000;
 
@@ -14,11 +17,13 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:5174", // Adjust this to your frontend's URL
+    origin: "http://localhost:5173", // Adjust this to your frontend's URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
+app.use('/pokemon', pokedexRoutes);
 
 app.listen(port, () => {
   console.log(`server listening on port ${port}`);
