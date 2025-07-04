@@ -79,12 +79,12 @@ const PokemonCardInfo = () => {
               <h1>Abilities: </h1>
               <ul className="list-disc pl-5">
                 {card.abilities.map((ability, index) => (
-                  <>
+                  <span key={index} className="flex flex-col">
                     {ability.type}
                     <li key={index}>
                       <strong>{ability.name}:</strong> {ability.text}
                     </li>
-                  </>
+                  </span>
                 ))}
               </ul>
             </div>
