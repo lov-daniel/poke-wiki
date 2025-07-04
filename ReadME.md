@@ -7,7 +7,7 @@
    ```bash
    cd backend
    npm install
-   npm start
+   node src/app.jsx
    ```
 
 3. **Start the Frontend:**

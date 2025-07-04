@@ -42,15 +42,15 @@ const PokemonCardInfo = () => {
         <div className="w-full md:w-2/3 flex flex-col justify-center">
           <div className="header-details flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold">{card.name}</h1>
-              <p className="text-lg">
+              <h1 className="font-bold">{card.name}</h1>
+              <p>
                 {card.supertype} - {card.subtypes?.join(", ")}
               </p>
             </div>
-            <p className="text-lg">HP: {card.hp}</p>
+            <p>HP: {card.hp}</p>
           </div>
           <div className="prices-details">
-            <h2 className="text-xl font-semibold">Prices</h2>
+            <h2 className="font-semibold">Prices</h2>
             {card.tcgplayer?.prices?.holofoil ? (
               <ul className="list-disc pl-5 flex flex-row gap-4 justify-evenly">
                 {holofoilPrices.map(([label, price]) => (
@@ -79,12 +79,12 @@ const PokemonCardInfo = () => {
               <h1>Abilities: </h1>
               <ul className="list-disc pl-5">
                 {card.abilities.map((ability, index) => (
-                  <>
+                  <span key={index} className="flex flex-col">
                     {ability.type}
                     <li key={index}>
                       <strong>{ability.name}:</strong> {ability.text}
                     </li>
-                  </>
+                  </span>
                 ))}
               </ul>
             </div>

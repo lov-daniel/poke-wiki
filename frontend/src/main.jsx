@@ -30,29 +30,33 @@ import PokemonCardInfo from "./pages/cards/PokemonCardInfo.jsx";
 }
 import About from "./pages/About.jsx";
 import Faq from "./pages/Faq.jsx";
-
+import SettingsBubble from "./components/SettingsBubble.jsx";
+import { ThemeProvider } from "./themeProvider/ThemeProvider.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<NavBar />}>
-          <Route index element={<Landing />} />
-          <Route path="home" element={<App />} />
-          <Route path="pokemon" element={<Pokemon />} />
-          <Route path="pokemon/generation" element={<PokemonGeneration />} />
-          <Route path="pokemon/type" element={<PokemonType />} />
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<NavBar />}>
+            <Route index element={<Landing />} />
+            <Route path="home" element={<App />} />
+            <Route path="pokemon" element={<Pokemon />} />
+            <Route path="pokemon/generation" element={<PokemonGeneration />} />
+            <Route path="pokemon/type" element={<PokemonType />} />
 
-          <Route path="tcg/cards" element={<PokemonCards />} />
-          <Route path="tcg/cards/:name" element={<PokemonCards />} />
-          <Route path="tcg/card/:id" element={<PokemonCardInfo />} />
+            <Route path="tcg/cards" element={<PokemonCards />} />
+            <Route path="tcg/cards/:name" element={<PokemonCards />} />
+            <Route path="tcg/card/:id" element={<PokemonCardInfo />} />
 
-          <Route path="cards/sets" element={<PokemonCardSets />} />
-          <Route path="cards/rarity" element={<PokemonCardsRarity />} />
-          <Route path="cards/type" element={<PokemonCardsType />} />
-          <Route path="about" element={<About />} />
-          <Route path="faq" element={<Faq />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            <Route path="cards/sets" element={<PokemonCardSets />} />
+            <Route path="cards/rarity" element={<PokemonCardsRarity />} />
+            <Route path="cards/type" element={<PokemonCardsType />} />
+            <Route path="about" element={<About />} />
+            <Route path="faq" element={<Faq />} />
+          </Route>
+        </Routes>
+        <SettingsBubble />
+      </BrowserRouter>
+    </ThemeProvider>
   </StrictMode>
 );
