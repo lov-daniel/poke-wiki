@@ -22,21 +22,46 @@ const NavBar = () => {
                     className="input input-bordered mb-2 join-item"
                     onKeyDown={(e) => {
                       const pokemonName = e.target.value.trim().toLowerCase();
+                      const searchType = document.querySelector(
+                        'select[name="searchType"]'
+                      ).value;
+
                       if (e.key === "Enter" && pokemonName) {
                         e.preventDefault();
-                        navigate(`/tcg/cards/${pokemonName}`);
+                        if (searchType === "tcg") {
+                          navigate(`/tcg/cards/${pokemonName}`);
+                        } else if (searchType === "games") {
+                          navigate(`/pokemon/${pokemonName}`);
+                        }
                       }
                     }}
                   />
                 </div>
-                <select className="select join-item">
-                  <option>In TCG</option>
-                  <option>In Games</option>
+                <select name="searchType" className="select join-item">
+                  <option value="tcg">In TCG</option>
+                  <option value="games">In Games</option>
                 </select>
                 <button
                   className="join-item btn btn-primary"
                   aria-label="Search Trading Cards"
                   type="submit"
+                  onClick={() => {
+                    const pokemonName = document
+                      .querySelector('input[name="search"]')
+                      .value.trim()
+                      .toLowerCase();
+                    const searchType = document.querySelector(
+                      'select[name="searchType"]'
+                    ).value;
+
+                    if (searchType === "tcg") {
+                      navigate(`/tcg/cards/${pokemonName}`);
+                    } else if (searchType === "games") {
+                      navigate(`/pokemon/${pokemonName}`);
+                    } else {
+                      alert("Please select a valid search type.");
+                    }
+                  }}
                 >
                   &rarr;
                 </button>{" "}

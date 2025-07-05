@@ -38,7 +38,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/" element={<NavBar />}>
           <Route index element={<Landing />} />
           <Route path="home" element={<App />} />
-          <Route path="pokemon" element={<Pokemon />} />
+          <Route path="pokemon/:id" element={<Pokemon />} />
           <Route path="pokemon/generation" element={<PokemonGeneration />} />
           <Route path="pokemon/type" element={<PokemonType />} />
 
